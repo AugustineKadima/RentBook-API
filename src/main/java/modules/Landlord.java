@@ -9,6 +9,7 @@ public class Landlord {
     private String phone_number;
     private String gender;
     private String location;
+    private int id ;
 
     public Landlord(String name, String email, String phone_number, String gender, String location) {
         this.name = name;
@@ -48,6 +49,14 @@ public class Landlord {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLocation() {

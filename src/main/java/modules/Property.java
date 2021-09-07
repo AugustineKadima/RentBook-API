@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Property {
 
+    private int id;
     private String name;
     private String location;
     private int number_of_house_units;
@@ -26,6 +27,14 @@ public class Property {
         this.caretaker_name = caretaker_name;
         this.caretaker_phone_number = caretaker_phone_number;
         this.landlord_id = landlord_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
