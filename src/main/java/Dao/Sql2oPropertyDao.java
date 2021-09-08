@@ -1,6 +1,7 @@
 package Dao;
 
 import modules.Property;
+import modules.Tenant;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
@@ -43,6 +44,15 @@ public class Sql2oPropertyDao implements IPropertyDao{
             return con.createQuery("SELECT * FROM properties WHERE id = :id")
                     .addParameter("id", id)
                     .executeAndFetchFirst(Property.class);
+        }
+    }
+
+    @Override
+    public List<Property> getAllPropertyByLandlord(int landlord_id) {
+        try (Connection conn = sql2o.open()){
+            return conn.createQuery("SELECT * FROM properties WHERE landlord_id = :landlord_id")
+                    .addParameter("landlord_id",landlord_id)
+                    .executeAndFetch(Property.class);
         }
     }
 

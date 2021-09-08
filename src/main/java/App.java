@@ -8,6 +8,8 @@ import modules.Tenant;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.List;
+
 import static spark.Spark.*;
 
 public class App {
@@ -109,6 +111,29 @@ public class App {
             propertyDao.deleteById(property_id);
             return gson.toJson(propertyToDelete);
         });
+
+        //ALL TENANTS PER PROPERTY
+        get("/properties/:property_id/tenants", "application/json", (req, res) -> {
+            int property_id = Integer.parseInt(req.params("property_id"));
+            Property propertyToFind = propertyDao.findById(property_id);
+            if (propertyToFind == null) {
+                throw new Exception();
+            }
+            List<Tenant> allTenants = tenantDao.getAllTenantsByProperty(property_id);
+            return gson.toJson(allTenants);
+        });
+
+        //ALL PROPERTY PER LANDLORD
+        get("/landlords/:landlord_id/properties", "application/json", (req, res) -> {
+            int landlord_id = Integer.parseInt(req.params("landlord_id"));
+            Landlord landlordToFind = landlordDao.findById(landlord_id);
+            if (landlordToFind == null) {
+                throw new Exception();
+            }
+            List<Property> allProperty = propertyDao.getAllPropertyByLandlord(landlord_id);
+            return gson.toJson(allProperty);
+        });
+
 
     }
 }

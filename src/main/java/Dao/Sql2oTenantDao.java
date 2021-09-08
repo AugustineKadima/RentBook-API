@@ -47,6 +47,15 @@ public class Sql2oTenantDao implements ITenantDao{
     }
 
     @Override
+    public List<Tenant> getAllTenantsByProperty(int property_id) {
+        try (Connection conn = sql2o.open()){
+            return conn.createQuery("SELECT * FROM tenants WHERE property_id = :property_id")
+                    .addParameter("property_id",property_id)
+                    .executeAndFetch(Tenant.class);
+        }
+    }
+
+    @Override
     public void deleteById(int id) {
         String sql = "DELETE from tenants WHERE id = :id";
         try (Connection con = sql2o.open()) {

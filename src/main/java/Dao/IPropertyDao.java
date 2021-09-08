@@ -11,6 +11,7 @@ public interface IPropertyDao {
 //    Read
     List<Property> getAll();
     Property findById(int id);
+    List<Property> getAllPropertyByLandlord(int landlord_id);
 
 //    Update
 

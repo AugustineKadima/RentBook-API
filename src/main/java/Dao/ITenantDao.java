@@ -11,6 +11,7 @@ public interface ITenantDao {
 //    Read
     Tenant findById(int id);
     List<Tenant> getAll();
+    List<Tenant> getAllTenantsByProperty(int property_id);
 
 //    Update
 
