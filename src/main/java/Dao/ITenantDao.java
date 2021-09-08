@@ -17,5 +17,5 @@ public interface ITenantDao {
 
 //    Delete
     void deleteById(int id);
-    void deleteAll();
+    void clearAll();
 }

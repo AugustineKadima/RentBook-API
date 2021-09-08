@@ -17,7 +17,7 @@ public class Sql2oPropertyDao implements IPropertyDao{
 
     @Override
     public void add(Property property) {
-        String sql = "INSERT INTO properties (name,location) VALUES (:)";
+        String sql = "INSERT INTO properties (name,location, number_of_units, rent_per_unit, has_electricity, has_water, has_internet, caretaker_name, caretaker_phone_number, landlord_id ) VALUES (:name, :location, :number_of_units, :rent_per_unit, :has_electricity, :has_water, :has_internet, :caretaker_name, :caretaker_phone_number, :landlord_id)";
         try(Connection con = sql2o.open()){
             int id = (int) con.createQuery(sql, true)
                     .bind(property)
@@ -31,21 +31,43 @@ public class Sql2oPropertyDao implements IPropertyDao{
 
     @Override
     public List<Property> getAll() {
-        return null;
+        try(Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM properties")
+                    .executeAndFetch(Property.class);
+        }
     }
 
     @Override
     public Property findById(int id) {
-        return null;
+        try (Connection con = sql2o.open()) {
+            return con.createQuery("SELECT * FROM properties WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Property.class);
+        }
     }
 
     @Override
     public void deleteById(int id) {
-
+        String sql = "DELETE from properties WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex){
+            System.out.println(ex);
+        }
     }
 
     @Override
     public void clearAll() {
+        String sql = "DELETE from properties";
+        String resetSql = "ALTER SEQUENCE property_id_seq RESTART WITH 1;";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql).executeUpdate();
+            con.createQuery(resetSql).executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
 
     }
 }

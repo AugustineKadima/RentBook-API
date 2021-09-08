@@ -31,21 +31,43 @@ public class Sql2oLandlordDao implements ILandlordDao{
 
     @Override
     public List<Landlord> getAll() {
-        return null;
+        try(Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM landlords")
+                    .executeAndFetch(Landlord.class);
+        }
     }
 
     @Override
     public Landlord findById(int id) {
-        return null;
+        try (Connection con = sql2o.open()) {
+            return con.createQuery("SELECT * FROM landlords WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Landlord.class);
+        }
     }
 
     @Override
     public void deleteById(int id) {
-
+        String sql = "DELETE from landlords WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex){
+            System.out.println(ex);
+        }
     }
 
     @Override
     public void clearAll() {
-
+        String sql = "DELETE from landlords";
+        String resetSql = "ALTER SEQUENCE landlord_id_seq RESTART WITH 1;";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql).executeUpdate();
+            con.createQuery(resetSql).executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
+
 }
