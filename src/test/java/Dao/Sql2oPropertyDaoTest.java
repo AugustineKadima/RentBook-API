@@ -1,8 +1,7 @@
 package Dao;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import modules.Property;
+import org.junit.jupiter.api.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -28,5 +27,19 @@ public class Sql2oPropertyDaoTest {
     public static void shutDown() throws Exception {
         conn.close();
         System.out.println("Connection closed");
+    }
+
+//    @Test
+//    public void addPropertyToDatabase(){
+//        Property property = new Property("Ten Flats", "Nairobi", 25, 13566, true, true, true, "Erick", "475449", 1);
+//        propertyDao.add(property);
+//        Assertions.assertEquals("Ten Flats", propertyDao.getAll().get(0).getName());
+//    }
+
+    @Test
+    public void findPropertyById(){
+        Property property = new Property("Ten Flats", "Nairobi", 25, 13566, true, true, true, "Erick", "475449", 1);
+        propertyDao.add(property);
+        Assertions.assertEquals(property, propertyDao.findById(property.getId()));
     }
 }

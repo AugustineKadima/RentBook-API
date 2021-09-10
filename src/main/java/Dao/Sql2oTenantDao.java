@@ -1,5 +1,6 @@
 package Dao;
 
+import modules.Property;
 import modules.Tenant;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -25,6 +26,19 @@ public class Sql2oTenantDao implements ITenantDao{
                     .getKey();
             tenant.setId(id);
         } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    @Override
+    public void addTenantToProperty(Property property, Tenant tenant) {
+        String sql = "INSERT INTO properties_tenants(tenant_id, property_id) VALUES (:tenant_id, :property_id);";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("tenant_id", tenant.getId())
+                    .addParameter("property_id", property.getId())
+                    .executeUpdate();
+        } catch (Sql2oException ex){
             System.out.println(ex);
         }
     }

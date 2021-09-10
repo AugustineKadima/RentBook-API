@@ -1,6 +1,7 @@
 package Dao;
 
 import modules.Landlord;
+import modules.Property;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
@@ -25,6 +26,19 @@ public class Sql2oLandlordDao implements ILandlordDao{
                     .getKey();
             landlord.setId(id);
         } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    @Override
+    public void addLandlordToProperty(Landlord landlord, Property property) {
+        String sql = "INSERT INTO landlords_properties (landlord_id, property_id) VALUES (:landlord_id, :property_id);";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("property_id", property.getId())
+                    .addParameter("landlord_id", landlord.getId())
+                    .executeUpdate();
+        } catch (Sql2oException ex){
             System.out.println(ex);
         }
     }

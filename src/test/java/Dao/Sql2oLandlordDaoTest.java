@@ -15,7 +15,6 @@ public class Sql2oLandlordDaoTest {
     void setUp() {
         Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/rentbook_test",  "sirkadima", "kadima123");
         landlordDao = new Sql2oLandlordDao(sql2o);
-
         conn = sql2o.open();
     }
     @AfterEach
@@ -29,12 +28,55 @@ public class Sql2oLandlordDaoTest {
         System.out.println("Connection closed");
     }
 
-//    @Test
-//    public void findById() {
-//        Landlord landlord = new Landlord("Kadima", "kadima@gmail.com", "57678", "male", "New york");
-//        landlordDao.add(landlord);
-//        landlordDao.getAll();
-//        Assertions.assertEquals(landlord, landlordDao.findById(landlord.getId()));
-//    }
 
+    @Test
+    public void addLandlordToDatabase() {
+        Landlord landlord = new Landlord("Kadima", "kadima@gmail.com", "57678", "male", "New york");
+        landlordDao.add(landlord);
+        Assertions.assertEquals(landlordDao.getAll().get(0).getName(), "Kadima");
+    }
+
+    @Test
+    public void findLandlordById() {
+        Landlord landlord = new Landlord("Kadima", "kadima@gmail.com", "57678", "male", "New york");
+        landlordDao.add(landlord);
+        landlordDao.getAll();
+        Assertions.assertEquals(landlord, landlordDao.findById(landlord.getId()));
+    }
+
+    @Test
+    public void findAllLandlordsInDataBase(){
+        Landlord landlord1 = new Landlord("Kadima", "kadima@gmail.com", "57678", "male", "New york");
+        Landlord landlord2 = new Landlord("Sam", "sam@gmail.com", "57678", "male", "New york");
+
+        landlordDao.add(landlord1);
+        landlordDao.add(landlord2);
+
+        Assertions.assertEquals(2, landlordDao.getAll().size());
+    }
+
+    @Test
+    public void landlordIsDeletedByIdFromDatabase(){
+        Landlord landlord1 = new Landlord("Kadima", "kadima@gmail.com", "57678", "male", "New york");
+        Landlord landlord2 = new Landlord("Sam", "sam@gmail.com", "57678", "male", "New york");
+
+        landlordDao.add(landlord1);
+        landlordDao.add(landlord2);
+
+        landlordDao.deleteById(landlord1.getId());
+        Assertions.assertEquals(1, landlordDao.getAll().size());
+    }
+
+    @Test
+    public void landlordsAreClearedFromDatabase(){
+        Landlord landlord1 = new Landlord("Kadima", "kadima@gmail.com", "57678", "male", "New york");
+        Landlord landlord2 = new Landlord("Sam", "sam@gmail.com", "57678", "male", "New york");
+
+        landlordDao.add(landlord1);
+        landlordDao.add(landlord2);
+
+        landlordDao.clearAll();
+
+        Assertions.assertEquals(0, landlordDao.getAll().size());
+    }
 }

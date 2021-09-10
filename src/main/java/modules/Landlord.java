@@ -17,6 +17,7 @@ public class Landlord {
         this.phone_number = phone_number;
         this.gender = gender;
         this.location = location;
+        this.id = id;
     }
 
     public String getName() {

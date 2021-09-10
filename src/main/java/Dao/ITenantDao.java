@@ -1,5 +1,6 @@
 package Dao;
 
+import modules.Property;
 import modules.Tenant;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 public interface ITenantDao {
 //    Create
     void add(Tenant tenant);
+    void addTenantToProperty(Property property, Tenant tenant);
 
 //    Read
     Tenant findById(int id);

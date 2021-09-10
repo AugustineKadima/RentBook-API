@@ -112,16 +112,6 @@ public class App {
             return gson.toJson(propertyToDelete);
         });
 
-        //ALL TENANTS PER PROPERTY
-        get("/properties/:property_id/tenants", "application/json", (req, res) -> {
-            int property_id = Integer.parseInt(req.params("property_id"));
-            Property propertyToFind = propertyDao.findById(property_id);
-            if (propertyToFind == null) {
-                throw new Exception();
-            }
-            List<Tenant> allTenants = tenantDao.getAllTenantsByProperty(property_id);
-            return gson.toJson(allTenants);
-        });
 
         //ALL PROPERTY PER LANDLORD
         get("/landlords/:landlord_id/properties", "application/json", (req, res) -> {
@@ -134,6 +124,26 @@ public class App {
             return gson.toJson(allProperty);
         });
 
+//        CREATE NEW TENANTS WITH PROPERTY ID
+        post("/properties/:property_id/tenants/new", "application/json", (req, res) -> {
+            int property_id = Integer.parseInt(req.params("property_id"));
+            Tenant tenant = gson.fromJson(req.body(), Tenant.class);
+            tenant.setProperty_id(property_id);
+            tenantDao.add(tenant);
+            res.status(201);
+            return gson.toJson(tenant);
+        });
+
+        //ALL TENANTS PER PROPERTY
+        get("/properties/:property_id/tenants", "application/json", (req, res) -> {
+            int property_id = Integer.parseInt(req.params("property_id"));
+            Property propertyToFind = propertyDao.findById(property_id);
+            if (propertyToFind == null) {
+                throw new Exception();
+            }
+            List<Tenant> allTenants = tenantDao.getAllTenantsByProperty(property_id);
+            return gson.toJson(allTenants);
+        });
 
     }
 }
