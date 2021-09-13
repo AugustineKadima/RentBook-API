@@ -75,10 +75,8 @@ public class Sql2oLandlordDao implements ILandlordDao{
     @Override
     public void clearAll() {
         String sql = "DELETE from landlords";
-        String resetSql = "ALTER SEQUENCE landlord_id_seq RESTART WITH 1;";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql).executeUpdate();
-            con.createQuery(resetSql).executeUpdate();
         } catch (Sql2oException ex) {
             System.out.println(ex);
         }

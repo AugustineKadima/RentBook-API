@@ -84,10 +84,8 @@ public class Sql2oTenantDao implements ITenantDao{
     @Override
     public void clearAll() {
         String sql = "DELETE from tenants";
-        String resetSql = "ALTER SEQUENCE tenant_id_seq RESTART WITH 1;";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql).executeUpdate();
-            con.createQuery(resetSql).executeUpdate();
         } catch (Sql2oException ex) {
             System.out.println(ex);
         }

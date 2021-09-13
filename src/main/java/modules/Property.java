@@ -7,7 +7,7 @@ public class Property {
     private int id;
     private String name;
     private String location;
-    private int number_of_house_units;
+    private int number_of_units;
     private long rent_per_unit;
     private boolean has_electricity;
     private boolean has_water;
@@ -16,10 +16,10 @@ public class Property {
     private String caretaker_phone_number;
     private int landlord_id;
 
-    public Property(String name, String location, int number_of_house_units, long rent_per_unit, boolean has_electricity, boolean has_water, boolean has_internet, String caretaker_name, String caretaker_phone_number, int landlord_id) {
+    public Property(String name, String location, int number_of_units, long rent_per_unit, boolean has_electricity, boolean has_water, boolean has_internet, String caretaker_name, String caretaker_phone_number, int landlord_id) {
         this.name = name;
         this.location = location;
-        this.number_of_house_units = number_of_house_units;
+        this.number_of_units = number_of_units;
         this.rent_per_unit = rent_per_unit;
         this.has_electricity = has_electricity;
         this.has_water = has_water;
@@ -53,12 +53,12 @@ public class Property {
         this.location = location;
     }
 
-    public int getNumber_of_house_units() {
-        return number_of_house_units;
+    public int getNumber_of_units() {
+        return number_of_units;
     }
 
-    public void setNumber_of_house_units(int number_of_house_units) {
-        this.number_of_house_units = number_of_house_units;
+    public void setNumber_of_units(int number_of_units) {
+        this.number_of_units = number_of_units;
     }
 
     public long getRent_per_unit() {
@@ -122,11 +122,11 @@ public class Property {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Property property = (Property) o;
-        return number_of_house_units == property.number_of_house_units && rent_per_unit == property.rent_per_unit && has_electricity == property.has_electricity && has_water == property.has_water && has_internet == property.has_internet && landlord_id == property.landlord_id && name.equals(property.name) && location.equals(property.location) && caretaker_name.equals(property.caretaker_name) && caretaker_phone_number.equals(property.caretaker_phone_number);
+        return number_of_units == property.number_of_units && rent_per_unit == property.rent_per_unit && has_electricity == property.has_electricity && has_water == property.has_water && has_internet == property.has_internet && landlord_id == property.landlord_id && name.equals(property.name) && location.equals(property.location) && caretaker_name.equals(property.caretaker_name) && caretaker_phone_number.equals(property.caretaker_phone_number);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, location, number_of_house_units, rent_per_unit, has_electricity, has_water, has_internet, caretaker_name, caretaker_phone_number, landlord_id);
+        return Objects.hash(name, location, number_of_units, rent_per_unit, has_electricity, has_water, has_internet, caretaker_name, caretaker_phone_number, landlord_id);
     }
 }

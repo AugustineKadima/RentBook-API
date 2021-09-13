@@ -19,7 +19,7 @@ public class Sql2oPropertyDao implements IPropertyDao{
 
     @Override
     public void add(Property property) {
-        String sql = "INSERT INTO properties (name,location, number_of_units, rent_per_unit, has_electricity, has_water, has_internet, caretaker_name, caretaker_phone_number, landlord_id ) VALUES (:name, :location, :number_of_units, :rent_per_unit, :has_electricity, :has_water, :has_internet, :caretaker_name, :caretaker_phone_number, :landlord_id)";
+        String sql = "INSERT INTO properties (name, location, number_of_units, rent_per_unit, has_electricity, has_water, has_internet, caretaker_name, caretaker_phone_number, landlord_id ) VALUES (:name, :location, :number_of_units, :rent_per_unit, :has_electricity, :has_water, :has_internet, :caretaker_name, :caretaker_phone_number, :landlord_id)";
         try(Connection con = sql2o.open()){
             int id = (int) con.createQuery(sql, true)
                     .bind(property)
@@ -27,7 +27,7 @@ public class Sql2oPropertyDao implements IPropertyDao{
                     .getKey();
             property.setId(id);
         } catch (Sql2oException ex) {
-            System.out.println(ex);
+            System.out.println("Addition error: " + ex);
         }
     }
 
@@ -98,10 +98,8 @@ public class Sql2oPropertyDao implements IPropertyDao{
     @Override
     public void clearAll() {
         String sql = "DELETE from properties";
-        String resetSql = "ALTER SEQUENCE property_id_seq RESTART WITH 1;";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql).executeUpdate();
-            con.createQuery(resetSql).executeUpdate();
         } catch (Sql2oException ex) {
             System.out.println(ex);
         }
