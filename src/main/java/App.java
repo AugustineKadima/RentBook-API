@@ -145,5 +145,26 @@ public class App {
             return gson.toJson(allTenants);
         });
 
+        //    CREATE NEW PROPERTY WITH LANDLORD ID
+        post("/landlords/:landlord_id/properties/new", "application/json", (req, res) -> {
+            int landlord_id = Integer.parseInt(req.params("landlord_id"));
+            Property property = gson.fromJson(req.body(), Property.class);
+            property.setLandlord_id(landlord_id);
+            propertyDao.add(property);
+            res.status(201);
+            return gson.toJson(property);
+        });
+
+        //ALL PROPERTY PER LANDLORD
+        get("/landlords/:landlord_id/properties", "application/json", (req, res) -> {
+            int landlord_id = Integer.parseInt(req.params("landlord_id"));
+            Landlord landlordToFind = landlordDao.findById(landlord_id);
+            if (landlordToFind == null) {
+                throw new Exception();
+            }
+            List<Property> allProperty = propertyDao.getAllPropertyByLandlord(landlord_id);
+            return gson.toJson(allProperty);
+        });
+
     }
 }
